@@ -10,4 +10,4 @@
     <include file="db/changelog/changes/004-create-leave-types-table.xml"/>
     <include file="db/changelog/changes/005-create-leave-requests-table.xml"/>
 
-</databaseChangeLog>>
+</databaseChangeLog>
