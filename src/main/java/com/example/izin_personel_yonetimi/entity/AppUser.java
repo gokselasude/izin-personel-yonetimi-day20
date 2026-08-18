@@ -1,10 +1,21 @@
 package com.example.izin_personel_yonetimi.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class AppUser {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class AppUser implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,32 +27,38 @@ public class AppUser {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    @OneToOne(mappedBy = "user")
-    private Employee employee;
+    // --- Spring Security UserDetails Metotları ---
 
-    public AppUser() {}
-
-    public AppUser(String username, String password, String role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
-    public String getPassword() { return password; }
-    public void setPassword(String password) { this.password = password; }
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
-    public Employee getEmployee() { return employee; }
-    public void setEmployee(Employee employee) { this.employee = employee; }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
