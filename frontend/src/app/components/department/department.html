@@ -1,0 +1,43 @@
+<div class="container mt-4">
+  <h2>Departman Yönetimi</h2>
+
+  <!-- Yeni Departman Ekleme Formu -->
+  <div class="card p-3 mb-4">
+    <h4>Yeni Departman Ekle</h4>
+    <form (ngSubmit)="createDepartment()">
+      <div class="mb-3">
+        <label for="name" class="form-label">Departman Adı</label>
+        <input type="text" id="name" class="form-control" [(ngModel)]="newDepartment.name" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Açıklama</label>
+        <input type="text" id="description" class="form-control" [(ngModel)]="newDepartment.description" name="description">
+      </div>
+      <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+  </div>
+
+  <!-- Departman Listesi Tablosu -->
+  <div class="card p-3">
+    <h4>Departman Listesi</h4>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Departman Adı</th>
+        <th>Açıklama</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let dept of departments">
+        <td>{{ dept.id }}</td>
+        <td>{{ dept.name }}</td>
+        <td>{{ dept.description }}</td>
+      </tr>
+      <tr *ngIf="departments.length === 0">
+        <td colspan="3" class="text-center">Henüz eklenmiş departman bulunmuyor.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="container mt-4">
+  <h2>İzin Türü Yönetimi</h2>
+
+  <!-- Yeni İzin Türü Ekleme Formu -->
+  <div class="card p-3 mb-4">
+    <h4>Yeni İzin Türü Ekle</h4>
+    <form (ngSubmit)="createLeaveType()">
+      <div class="mb-3">
+        <label for="name" class="form-label">İzin Türü Adı</label>
+        <input type="text" id="name" class="form-control" [(ngModel)]="newLeaveType.name" name="name" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Açıklama</label>
+        <input type="text" id="description" class="form-control" [(ngModel)]="newLeaveType.description" name="description">
+      </div>
+      <button type="submit" class="btn btn-primary">Kaydet</button>
+    </form>
+  </div>
+
+  <!-- İzin Türü Listesi Tablosu -->
+  <div class="card p-3">
+    <h4>İzin Türü Listesi</h4>
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>İzin Türü Adı</th>
+        <th>Açıklama</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let lt of leaveTypes">
+        <td>{{ lt.id }}</td>
+        <td>{{ lt.name }}</td>
+        <td>{{ lt.description }}</td>
+      </tr>
+      <tr *ngIf="leaveTypes.length === 0">
+        <td colspan="3" class="text-center">Henüz eklenmiş izin türü bulunmuyor.</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
