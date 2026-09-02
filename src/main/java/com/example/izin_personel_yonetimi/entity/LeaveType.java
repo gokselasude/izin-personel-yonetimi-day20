@@ -15,6 +15,9 @@ public class LeaveType {
 
     private String description;
 
+    @Column(name = "default_days", nullable = false)
+    private Integer defaultDays;
+
     public LeaveType() {}
 
     public LeaveType(String name, String description) {
@@ -30,4 +33,7 @@ public class LeaveType {
 
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
+
+    public Integer getDefaultDays() { return defaultDays; }
+    public void setDefaultDays(Integer defaultDays) { this.defaultDays = defaultDays; }
 }
