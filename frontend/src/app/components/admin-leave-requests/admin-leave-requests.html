@@ -1,0 +1,48 @@
+<div class="container mt-4">
+  <h2>İzin Talepleri (Admin)</h2>
+
+  <p *ngIf="loading">Yükleniyor...</p>
+
+  <table class="table" *ngIf="!loading">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Personel</th>
+      <th>İzin Türü</th>
+      <th>Başlangıç</th>
+      <th>Bitiş</th>
+      <th>Durum</th>
+      <th>İşlemler</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let req of leaveRequests">
+      <td>{{ req.id }}</td>
+      <td>{{ req.employeeName }}</td>
+      <td>{{ req.leaveTypeName }}</td>
+      <td>{{ req.startDate }}</td>
+      <td>{{ req.endDate }}</td>
+      <td>{{ req.status }}</td>
+      <td>
+        <button
+          class="btn btn-success btn-sm"
+          (click)="approve(req.id)"
+          [disabled]="req.status !== 'PENDING'"
+        >
+          Onayla
+        </button>
+        <button
+          class="btn btn-danger btn-sm"
+          (click)="reject(req.id)"
+          [disabled]="req.status !== 'PENDING'"
+        >
+          Reddet
+        </button>
+      </td>
+    </tr>
+    <tr *ngIf="leaveRequests.length === 0">
+      <td colspan="7">Henüz izin talebi bulunmuyor.</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

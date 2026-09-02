@@ -1,11 +1,10 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { LeaveRequestComponent } from './components/leave-request/leave-request.component';
-import { LeaveTypeComponent } from './components/leave-type/leave-type.component';
-import { DepartmentComponent } from './components/department/department.component';
-import { EmployeeComponent } from './components/employee/employee';
 import { authGuard } from './auth.guard';
-
+import { LoginComponent } from './components/login/login';
+import { LeaveRequestComponent } from './leave-request';
+import { LeaveTypeComponent } from './components/leave-type/leave-type';
+import { DepartmentComponent } from './components/department/department';
+import { AdminLeaveRequests } from './components/admin-leave-requests/admin-leave-requests';
 export const routes: Routes = [
   { path: 'leave-types', component: LeaveTypeComponent },
   { path: 'login', component: LoginComponent },
@@ -25,8 +24,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   {
-    path: 'employees',
-    component: EmployeeComponent,
+    path: 'admin-leave-requests',
+    component: AdminLeaveRequests,
     canActivate: [authGuard],
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },

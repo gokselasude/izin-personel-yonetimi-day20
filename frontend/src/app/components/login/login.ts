@@ -22,20 +22,25 @@ export class LoginComponent {
     private router: Router,
   ) {}
 
-  onSubmit(): void {
-    if (this.loginForm.invalid) return;
+  onSubmit() {
+    this.authService.login(this.loginData).subscribe({
+      next: (response: any) => {
+        console.log('Giriş başarılı:', response);
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('token', res.token);
-        this.router.navigate(['/dashboard']);
+        // 1. Backend'den gelen token'ı alıp hafızaya (localStorage) kaydediyoruz
+        this.authService.saveToken(response.token);
+
+        // 2. Role'e göre yönlendirme
+        if (response.role === 'ADMIN') {
+          this.router.navigate(['/admin-leave-requests']);
+        } else {
+          this.router.navigate(['/leave-request']);
+        }
       },
       error: (err) => {
-        if (err.status === 401 || err.status === 403) {
-          alert('Kullanıcı adı veya şifre hatalı! Lütfen bilgilerinizi kontrol ediniz.');
-        } else {
-          alert('Sunucuya bağlanılamadı. Lütfen backend servisinin çalıştığından emin olun.');
-        }
-      }
+        console.error('Giriş başarısız:', err);
+        alert('Kullanıcı adı veya şifre hatalı!');
+      },
     });
   }
+}

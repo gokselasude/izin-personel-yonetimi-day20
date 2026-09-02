@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { LeaveRequestService } from './services/leave-request.service';
 
 @Component({
   selector: 'app-leave-request',
@@ -45,8 +47,11 @@ import { CommonModule } from '@angular/common';
 export class LeaveRequestComponent implements OnInit {
   leaveForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {}
-
+  constructor(
+    private fb: FormBuilder,
+    private leaveRequestService: LeaveRequestService,
+    private router: Router,
+  ) {}
   ngOnInit(): void {
     this.leaveForm = this.fb.group({
       leaveTypeId: ['', Validators.required],
@@ -58,7 +63,17 @@ export class LeaveRequestComponent implements OnInit {
 
   onSubmit(): void {
     if (this.leaveForm.valid) {
-      console.log('İzin talebi gönderildi:', this.leaveForm.value);
+      this.leaveRequestService.createLeaveRequest(this.leaveForm.value).subscribe({
+        next: (response) => {
+          console.log('İzin talebi başarıyla oluşturuldu:', response);
+          alert('İzin talebiniz başarıyla gönderildi!');
+          this.router.navigate(['/leave-request']); // veya istediğin başka bir sayfa
+        },
+        error: (err) => {
+          console.error('İzin talebi gönderilemedi:', err);
+          alert('İzin talebi gönderilirken bir hata oluştu.');
+        },
+      });
     }
   }
 }
